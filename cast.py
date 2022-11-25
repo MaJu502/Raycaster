@@ -22,14 +22,6 @@ walls = {
     "5" : pygame.image.load('./textures/f1_drivers.png')
 }
 
-sprite1 = pygame.image.load('./sprites/driver_enemy_1.png')
-sprite2 = pygame.image.load('./sprites/driver_enemy_2.png')
-
-# Game's enemies
-enemies = [
-    {"n" : "s1", "x" : 80, "y" : 150, "sprite" : sprite1},
-    {"n" : "s1", "x" : 80, "y" : 170, "sprite" : sprite2},
-]
 
 pygame.init()
 pantalla = pygame.display.set_mode((w,h))
@@ -94,9 +86,6 @@ class Raycaster(object):
                 self.draw_stake(x, h, c, tx)
                 self.zbuffer[i] = d
 
-        for e in enemies:
-            self.draw_sprite(e)
-
     def draw_map(self):
         for x in range(0, 100, int(self.blksize)):
             for y in range(0, 100, int(self.blksize)):
@@ -122,13 +111,13 @@ class Raycaster(object):
                 tx = int((x - sprite_x) * 128 / size)
                 ty = int((y - sprite_y) * 128 / size)
                 c = sprite["sprite"].get_at((tx, ty))
-                if x > 500:
-                    if self.zbuffer[x-500] >= d:
+                if x > 250  and x < 500:
+                    if self.zbuffer[x-250] >= d:
                         self.point(x, y, c)
-                        self.zbuffer[x-500] = d
+                        self.zbuffer[x-250] = d
     
     def zbuffed(self):
-        self.zbuffer = [9999999999 for z in range(0, int(self.width))]
+        self.zbuffer = [999999999999 for z in range(0, int(self.width))]
 
     # cast rays
     def cast_ray(self, a):
@@ -158,7 +147,7 @@ class Raycaster(object):
             self.point(x, y, CYAN)
             self.screen.set_at((x, y), CYAN)
 
-            d += 1
+            d += 5
 
     
 # create raycaster
@@ -202,6 +191,12 @@ while running:
     fpsrect.center = (600//2, 600//2)
     pantalla.blit(fpsss,fpsrect)
 
+    print(r.player.get("x"), r.player.get("y"))
+    if r.player.get("x") > 550 and r.player.get("x") < 600:
+        if r.player.get("y") > 50 and r.player.get("y") < 90:
+            # player location at winning spot
+            running = False
+
     # flip
     pygame.display.flip()
     reloj.tick()
@@ -231,6 +226,8 @@ while running:
                 r.player["x"] += 10
 
 startgame = False
+pantalla.fill(BLACK)
+pygame.display.flip()
 backgr = pygame.image.load('./textures/Win_screen.png').convert()
 pantalla.blit(backgr, (0,0))
 pygame.display.flip()
