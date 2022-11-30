@@ -218,19 +218,20 @@ c = 0
 fail_game = True
 startgame = True
 running = True
-while running:
+while running == True:
     pantalla.fill(BLACK)
     pantalla.fill(SKY, (r.width / 2, 0, r.width, r.height / 3))
     pantalla.fill(GRASS, (r.width / 2, r.height / 2, r.width, r.height / 2))
 
     mouse = pygame.mouse.get_rel()
 
-    if 300 < r.player["x"] < 500 and 300 < r.player["y"] < 500:
-        # llego a la meta
-        running = False
-        startgame = False
-
     running, fail_game = r.checkloose()
+    if r.player["x"] <= 395 and r.player["x"] >= 355:
+        if r.player["y"] <= 445 and r.player["y"] >= 405:
+            running = False
+            startgame = False
+
+    
     
     r.render()
 
