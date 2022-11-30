@@ -10,3 +10,5 @@
 - Welcome, Victory and Defeat screen
 
 Para ganar debes de buscar la meta, si chocas perderás. Avanza con las flechas y rota la cámara con las teclas A,D o con tu mouse. 
+
+#Correr el archivo caster.py
